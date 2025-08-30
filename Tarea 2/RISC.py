@@ -27,21 +27,27 @@ class RISC:
             content = cell.get(address, "unknown") 
             if content != "unknown":
                 return content
-        return "Out of Range"
+        return 0
     
     def STORE(self, content, address):
         for cell in self.memory:
             if address in cell:
                 cell[address] = content
-        return "Out of Range"
+        return 0
         
     def ADD(self, add1, add2):
-        sum = add1, add2
+        sum = add1 + add2
         return sum 
     
+    
 my_RISC = RISC()
-R1 = my_RISC.LOAD(0x0004C)
-print(R1)
-my_RISC.STORE(23, 0x004C)
-R1 = my_RISC.LOAD(0x0004C)
-print(R1)
+
+initial_address = 0x0000
+for i in range(10):
+    R1 = my_RISC.LOAD(i*8)
+    R2 = my_RISC.LOAD(i*8 + 4)
+    R3 = my_RISC.ADD(R1, R2)
+    my_RISC.STORE(R3, 0x0050)
+    print(R3)
+
+print(my_RISC.memory)
