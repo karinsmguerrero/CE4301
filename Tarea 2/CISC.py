@@ -23,22 +23,37 @@ class CISC:
                        {0x0050 : 0}]
         
     def SUMMEM(self, address, storeAddress):
+        """ Adds two consecutive numbers from memory and writes the result to memory
+
+        Args:
+            address: address of the first addend
+            storeAddress: address where the result should be written
+
+        Returns:
+            sum: result of the addition
+        """
+
+        # Load first addend from memory
         for cell in self.memory:
             add1 = cell.get(address, "unknown") 
             if add1 != "unknown":
                 break
+        # Load consecutive addend from memory
         for cell in self.memory:
             add2 = cell.get(address + 4, "unknown")
             if add2 != "unknown":
                 break
         sum = add1 + add2
+        # Store sum in memory
         for cell in self.memory:
             if storeAddress in cell:
                 cell[storeAddress] = sum        
         return sum
     
 myCISC = CISC()
+# Adds each element of both arrays and stores result in address 0x0050
 for i in range(10):
     R1 = myCISC.SUMMEM(i*8, 0x0050)
     print(R1)
+    
 print(myCISC.memory)

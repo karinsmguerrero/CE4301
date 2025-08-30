@@ -23,26 +23,56 @@ class RISC:
                        {0x0050 : 0}]
         
     def LOAD(self, address):
+        """ Reads data from a memory address
+
+        Args:
+            address: memory address to read from
+
+        Returns:
+            content: data read from memory
+            1: if address is not found
+        """
+        
         for cell in self.memory:
             content = cell.get(address, "unknown") 
             if content != "unknown":
                 return content
-        return 0
+        return 1
     
     def STORE(self, content, address):
+        """ Writes data from a memory address
+
+        Args:
+            address: memory address to write to
+            content: data to write to memory
+
+        Returns:
+            0: if sucessful
+        """
+        
         for cell in self.memory:
             if address in cell:
                 cell[address] = content
         return 0
         
     def ADD(self, add1, add2):
+        """ Adds two numbers
+
+        Args:
+            add1: first addend
+            add2: second addend
+
+        Returns:
+            sum: result of addition
+        """
+        
         sum = add1 + add2
         return sum 
     
     
 my_RISC = RISC()
 
-initial_address = 0x0000
+# Adds each element of both arrays and stores result in address 0x0050
 for i in range(10):
     R1 = my_RISC.LOAD(i*8)
     R2 = my_RISC.LOAD(i*8 + 4)
